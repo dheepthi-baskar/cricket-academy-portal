@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coach · Cricket Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">Cricket <span>Academy</span> <span class="role-pill">Coach</span></div>
+    <button type="button" class="btn btn-ghost btn-sm" id="logout-btn">Sign out</button>
+  </header>
+  <main class="app-main">
+    <div id="page-alert" class="alert alert-error hidden"></div>
+    <h1 class="section-title">Coach dashboard</h1>
+
+    <nav class="tabs" id="tabs">
+      <button type="button" class="tab active" data-panel="metrics-panel">Record metrics</button>
+      <button type="button" class="tab" data-panel="fixtures-panel">Fixtures</button>
+      <button type="button" class="tab" data-panel="billing-panel">Billing</button>
+      <button type="button" class="tab" data-panel="bookings-panel">Net bookings</button>
+    </nav>
+
+    <section id="metrics-panel" class="panel active">
+      <div class="grid-2">
+        <div class="card">
+          <h3>Record session</h3>
+          <div id="metric-alert" class="alert hidden"></div>
+          <form id="metric-form">
+            <label for="player-select">Player</label>
+            <select id="player-select" required></select>
+            <label for="metric-date">Date</label>
+            <input type="date" id="metric-date" required>
+            <div class="form-row">
+              <div>
+                <label for="bowling-speed">Bowling speed</label>
+                <input type="number" id="bowling-speed" step="0.1" min="0" placeholder="km/h">
+              </div>
+              <div>
+                <label for="runs-scored">Runs</label>
+                <input type="number" id="runs-scored" min="0">
+              </div>
+              <div>
+                <label for="wickets">Wickets</label>
+                <input type="number" id="wickets" min="0">
+              </div>
+              <div>
+                <label for="fitness">Fitness (1–10)</label>
+                <input type="number" id="fitness" min="1" max="10">
+              </div>
+            </div>
+            <label for="notes">Coach notes</label>
+            <textarea id="notes" rows="3" placeholder="Session feedback…"></textarea>
+            <button type="submit" class="btn btn-primary">Save metric</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Player history</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Date</th><th>Speed</th><th>Runs</th><th>Fitness</th></tr>
+              </thead>
+              <tbody id="player-metrics-body"></tbody>
+            </table>
+          </div>
+          <p id="player-metrics-empty" class="empty hidden">Select a player to view history.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="fixtures-panel" class="panel">
+      <div class="card">
+        <h3>Fixtures</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Title</th><th>Scheduled</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="fixtures-body"></tbody>
+          </table>
+        </div>
+        <p id="fixtures-empty" class="empty hidden">No fixtures.</p>
+      </div>
+    </section>
+
+    <section id="billing-panel" class="panel">
+      <div class="card">
+        <h3>Billing summaries</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Player</th><th>Period</th><th>Amount due</th></tr>
+            </thead>
+            <tbody id="billing-body"></tbody>
+          </table>
+        </div>
+        <p id="billing-empty" class="empty hidden">No billing records.</p>
+      </div>
+    </section>
+
+    <section id="bookings-panel" class="panel">
+      <div class="grid-2">
+        <div class="card">
+          <h3>Book a net</h3>
+          <div id="booking-alert" class="alert hidden"></div>
+          <form id="booking-form">
+            <label for="facility-select">Facility</label>
+            <select id="facility-select" required></select>
+            <label for="start-time">Start</label>
+            <input type="datetime-local" id="start-time" required>
+            <label for="end-time">End</label>
+            <input type="datetime-local" id="end-time" required>
+            <label for="booking-notes">Notes</label>
+            <input type="text" id="booking-notes" placeholder="Optional">
+            <button type="submit" class="btn btn-primary">Create booking</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>My bookings</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Facility</th><th>Start</th><th>End</th></tr>
+              </thead>
+              <tbody id="bookings-body"></tbody>
+            </table>
+          </div>
+          <p id="bookings-empty" class="empty hidden">No bookings yet.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="/js/api.js"></script>
+  <script src="/js/coach.js"></script>
+</body>
+</html>

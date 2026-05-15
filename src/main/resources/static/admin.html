@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin · Cricket Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">Cricket <span>Academy</span> <span class="role-pill">Admin</span></div>
+    <button type="button" class="btn btn-ghost btn-sm" id="logout-btn">Sign out</button>
+  </header>
+  <main class="app-main">
+    <div id="page-alert" class="alert alert-error hidden"></div>
+    <h1 class="section-title">Administration</h1>
+
+    <nav class="tabs" id="tabs">
+      <button type="button" class="tab active" data-panel="batches-panel">Batches</button>
+      <button type="button" class="tab" data-panel="facilities-panel">Facilities</button>
+      <button type="button" class="tab" data-panel="fixtures-panel">Fixtures</button>
+    </nav>
+
+    <section id="batches-panel" class="panel active">
+      <div class="grid-2">
+        <div class="card">
+          <h3>Create batch</h3>
+          <div id="batch-alert" class="alert hidden"></div>
+          <form id="batch-form">
+            <label for="batch-name">Name</label>
+            <input id="batch-name" required>
+            <label for="batch-desc">Description</label>
+            <input id="batch-desc">
+            <label for="coach-user-id">Coach user ID</label>
+            <input type="number" id="coach-user-id" required placeholder="e.g. 2">
+            <button type="submit" class="btn btn-primary">Create batch</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>All batches</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Coach</th><th>Description</th></tr></thead>
+              <tbody id="batches-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="facilities-panel" class="panel">
+      <div class="grid-2">
+        <div class="card">
+          <h3>Add facility</h3>
+          <div id="facility-alert" class="alert hidden"></div>
+          <form id="facility-form">
+            <label for="facility-name">Name</label>
+            <input id="facility-name" required>
+            <label for="facility-desc">Description</label>
+            <input id="facility-desc">
+            <button type="submit" class="btn btn-primary">Add facility</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Facilities</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Description</th></tr></thead>
+              <tbody id="facilities-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fixtures-panel" class="panel">
+      <div class="grid-2">
+        <div class="card">
+          <h3>Schedule fixture</h3>
+          <div id="fixture-alert" class="alert hidden"></div>
+          <form id="fixture-form">
+            <label for="fixture-title">Title</label>
+            <input id="fixture-title" required>
+            <label for="fixture-batch">Batch</label>
+            <select id="fixture-batch" required></select>
+            <label for="fixture-when">Scheduled at</label>
+            <input type="datetime-local" id="fixture-when" required>
+            <button type="submit" class="btn btn-primary">Schedule</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>All fixtures</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Title</th><th>Batch</th><th>When</th><th>Status</th></tr></thead>
+              <tbody id="fixtures-body"></tbody>
+            </table>
+          </div>
+          <p id="fixtures-empty" class="empty hidden">No fixtures yet.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="/js/api.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

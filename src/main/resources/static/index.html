@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Academy Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-hero">
+      <h1>Cricket Academy Portal</h1>
+      <p>Track performance, manage fixtures, book nets, and run your academy from one place.</p>
+      <span class="badge">Under-19 Elite · Centre Indoor Nets</span>
+    </div>
+    <div class="login-panel">
+      <div class="login-card">
+        <h2>Sign in</h2>
+        <p class="subtitle">Use your academy email and password</p>
+        <div id="alert" class="alert alert-error hidden" role="alert"></div>
+        <form id="login-form">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required autocomplete="username" placeholder="you@academy.local">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required autocomplete="current-password" placeholder="••••••••">
+          <button type="submit" class="btn btn-primary" style="width:100%">Sign in</button>
+        </form>
+        <div class="demo-accounts">
+          <div class="demo-btns">
+            <button type="button" class="btn btn-outline btn-sm" data-demo="player@academy.local">Player</button>
+            <button type="button" class="btn btn-outline btn-sm" data-demo="coach@academy.local">Coach</button>
+            <button type="button" class="btn btn-outline btn-sm" data-demo="admin@academy.local">Admin</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/api.js"></script>
+  <script>
+    const alertEl = document.getElementById("alert");
+    const form = document.getElementById("login-form");
+
+    if (Api.getToken() && Api.getRole()) {
+      Api.redirectForRole(Api.getRole());
+    }
+
+    document.querySelectorAll("[data-demo]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.getElementById("email").value = btn.dataset.demo;
+        document.getElementById("password").value = "password";
+      });
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      Api.hideAlert(alertEl);
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      try {
+        const data = await Api.login(email, password);
+        Api.setSession(data.accessToken, data.role, data.userId);
+        Api.redirectForRole(data.role);
+      } catch (err) {
+        Api.showAlert(alertEl, err.message);
+      }
+    });
+  </script>
+</body>
+</html>
+

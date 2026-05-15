@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player · Cricket Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">Cricket <span>Academy</span> <span class="role-pill">Player</span></div>
+    <button type="button" class="btn btn-ghost btn-sm" id="logout-btn">Sign out</button>
+  </header>
+  <main class="app-main">
+    <div id="page-alert" class="alert alert-error hidden"></div>
+    <h1 class="section-title">My dashboard</h1>
+    <div class="stats">
+      <div class="stat"><div class="value" id="stat-speed">—</div><div class="label">Avg bowling speed</div></div>
+      <div class="stat"><div class="value" id="stat-runs">—</div><div class="label">Runs (30 days)</div></div>
+      <div class="stat"><div class="value" id="stat-fitness">—</div><div class="label">Avg fitness</div></div>
+    </div>
+    <div class="card">
+      <h3>Upcoming fixtures</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Title</th><th>Scheduled</th><th>Status</th></tr></thead>
+          <tbody id="fixtures-body"></tbody>
+        </table>
+      </div>
+      <p id="fixtures-empty" class="empty hidden">No fixtures scheduled.</p>
+    </div>
+    <div class="card">
+      <h3>Performance history</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Speed</th><th>Runs</th><th>Wickets</th><th>Fitness</th><th>Notes</th></tr>
+          </thead>
+          <tbody id="metrics-body"></tbody>
+        </table>
+      </div>
+      <p id="metrics-empty" class="empty hidden">No metrics recorded yet.</p>
+    </div>
+  </main>
+  <script src="/js/api.js"></script>
+  <script src="/js/player.js"></script>
+</body>
+</html>
+

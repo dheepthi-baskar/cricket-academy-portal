@@ -1,95 +1,163 @@
 # Cricket Academy Portal
 
-A multi-role cricket academy management application built with **Spring Boot 3** and a browser-based UI. Coaches track player performance, admins manage batches and facilities, and players view their stats, fixtures, and analytics.
+A multi-role cricket academy management web application built using **Java, Spring Boot, and a browser-based UI**. The system enables administrators to manage batches and facilities, coaches to track player performance and manage fixtures, and players to view their statistics, analytics, and upcoming fixtures.
 
 ## Features
 
-| Role | Capabilities |
-|------|----------------|
-| **Admin** | Create batches, facilities, and scheduled fixtures |
-| **Coach** | Record performance metrics, view billing summaries, book net sessions, manage fixture lifecycle (scheduled → live → completed/cancelled) |
-| **Player** | View personal metrics, 30-day analytics, and upcoming fixtures |
+### Admin
 
-Additional capabilities:
+* Create and manage player batches.
+* Manage academy facilities.
+* Schedule cricket fixtures.
 
-- JWT-based authentication (stateless API)
-- In-memory H2 database with demo seed data on first startup
-- Match fixture state machine (`SCHEDULED`, `LIVE`, `COMPLETED`, `CANCELLED`)
-- Optional async notifications (configurable)
+### Coach
 
-## Tech stack
+* Record and view player performance metrics.
+* View billing summaries.
+* Book net practice sessions.
+* Manage fixture status: Scheduled, Live, Completed, or Cancelled.
 
-- **Java 17**
-- **Spring Boot 3.2.5** — Web, Data JPA, Security, Validation
-- **H2** — in-memory database (development)
-- **JJWT** — JSON Web Tokens
-- **Lombok**
-- **Static UI** — HTML, CSS, JavaScript (served from `src/main/resources/static`)
+### Player
+
+* View personal performance statistics.
+* Access 30-day performance analytics.
+* View upcoming fixtures and metric history.
+
+### Additional Features
+
+* JWT-based authentication and role-based access control.
+* Automatic demo data initialization on first startup.
+* Fixture lifecycle management.
+* Configurable asynchronous notifications.
+
+## Tech Stack
+
+| Technology            | Purpose                          |
+| --------------------- | -------------------------------- |
+| Java 17               | Backend programming              |
+| Spring Boot 3.2.5     | Application framework            |
+| Spring Web            | REST API development             |
+| Spring Data JPA       | Database operations              |
+| Spring Security       | Authentication and authorization |
+| JWT (JJWT)            | Token-based authentication       |
+| H2 Database           | In-memory data storage           |
+| Lombok                | Boilerplate code reduction       |
+| HTML, CSS, JavaScript | Frontend development             |
+| Maven                 | Build and dependency management  |
 
 ## Prerequisites
 
-- [JDK 17](https://adoptium.net/) or newer
-- [Apache Maven 3.8+](https://maven.apache.org/)
+Ensure the following are installed:
 
-## Quick start
+* [JDK 17 or newer](https://adoptium.net/)
+* [Apache Maven 3.8 or newer](https://maven.apache.org/)
 
-### 1. Run the application
+Verify the installations:
+
+```bash
+java -version
+mvn -version
+```
+
+## Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone <https://github.com/dheepthi-baskar/cricket-academy-portal>
+cd cricket-academy-portal
+```
+
+### 2. Run the application
 
 ```bash
 mvn spring-boot:run
 ```
 
-Wait until the log shows:
+Wait until the application starts successfully on port `8080`.
 
-```text
-Tomcat started on port 8080 (http)
-```
+### 3. Open the application
 
-### 2. Open in a browser
-
-Use **Chrome**, **Edge**, **Firefox**, or any modern browser:
+Navigate to:
 
 ```text
 http://localhost:8080
 ```
 
-> **Important:** Open the URL above while the server is running. Do not open HTML files directly from disk (`file://`); the UI calls the API on `localhost:8080`.
+Keep the Spring Boot application running while using the web interface. Do not open the HTML files directly from the file system.
 
-### 3. Sign in with demo accounts
+## Demo Accounts
 
-All demo users share the password: **`password`**
+The application automatically initializes demo data when the database is empty.
 
-| Role   | Email                 |
-|--------|------------------------|
-| Admin  | `admin@academy.local`  |
-| Coach  | `coach@academy.local`  |
-| Player | `player@academy.local` |
+| Role   | Email                  | Password   |
+| ------ | ---------------------- | ---------- |
+| Admin  | `admin@academy.local`  | `password` |
+| Coach  | `coach@academy.local`  | `password` |
+| Player | `player@academy.local` | `password` |
 
-The login page includes quick-fill buttons for these accounts.
+Each role has access to its corresponding dashboard and authorized features.
 
-## Web UI
+**Note:** These credentials are for local demonstration only. Do not use demo credentials in a production environment.
 
-| Page | URL | Description |
-|------|-----|-------------|
-| Login | `http://localhost:8080/` | Sign in; redirects by role |
-| Player dashboard | `/player.html` | Stats, fixtures, metric history |
-| Coach dashboard | `/coach.html` | Metrics, fixtures, billing, net bookings |
-| Admin dashboard | `/admin.html` | Batches, facilities, fixtures |
+## Application Pages
 
-Static assets live under `src/main/resources/static/`.
+| Page             | URL            | Description                                     |
+| ---------------- | -------------- | ----------------------------------------------- |
+| Login            | `/`            | Authentication and role-based redirection       |
+| Player Dashboard | `/player.html` | Performance statistics, analytics, and fixtures |
+| Coach Dashboard  | `/coach.html`  | Player metrics, bookings, billing, and fixtures |
+| Admin Dashboard  | `/admin.html`  | Batch, facility, and fixture management         |
 
-## API overview
+## API Overview
 
-Base URL: `http://localhost:8080`
+**Base URL:** `http://localhost:8080`
 
-### Authentication (public)
+### Authentication
 
-| Method | Path | Description |
-|--------|------|-------------|
-| `POST` | `/api/auth/login` | Returns JWT (`accessToken`, `userId`, `role`) |
-| `POST` | `/api/auth/register` | Register a new user |
+| Method | Endpoint             | Description                          |
+| ------ | -------------------- | ------------------------------------ |
+| POST   | `/api/auth/login`    | Authenticate a user and return a JWT |
+| POST   | `/api/auth/register` | Register a new user                  |
 
-**Example login:**
+### Player APIs
+
+| Method | Endpoint                   | Description                                     |
+| ------ | -------------------------- | ----------------------------------------------- |
+| GET    | `/api/player/me/metrics`   | Retrieve personal performance metrics           |
+| GET    | `/api/player/me/analytics` | Retrieve performance analytics for a date range |
+| GET    | `/api/player/me/fixtures`  | Retrieve personal fixtures                      |
+
+### Coach APIs
+
+| Method    | Endpoint                                | Description                   |
+| --------- | --------------------------------------- | ----------------------------- |
+| GET       | `/api/coach/players`                    | Retrieve players              |
+| GET, POST | `/api/coach/players/{playerId}/metrics` | View or record player metrics |
+| GET       | `/api/coach/facilities`                 | Retrieve facilities           |
+| GET       | `/api/coach/bookings`                   | Retrieve bookings             |
+| GET       | `/api/coach/billing/summaries`          | View billing summaries        |
+| GET       | `/api/coach/fixtures`                   | Retrieve fixtures             |
+
+### Admin APIs
+
+| Method    | Endpoint                | Description               |
+| --------- | ----------------------- | ------------------------- |
+| GET, POST | `/api/admin/batches`    | View or create batches    |
+| GET, POST | `/api/admin/facilities` | View or create facilities |
+| POST      | `/api/admin/fixtures`   | Schedule a fixture        |
+
+Additional coach endpoints support fixture lifecycle operations, including starting, completing, and cancelling fixtures.
+
+### Authentication
+
+Protected endpoints require a valid JWT in the request header:
+
+```http
+Authorization: Bearer <accessToken>
+```
+
+Example login request:
 
 ```bash
 curl -X POST http://localhost:8080/api/auth/login \
@@ -97,115 +165,84 @@ curl -X POST http://localhost:8080/api/auth/login \
   -d "{\"email\":\"player@academy.local\",\"password\":\"password\"}"
 ```
 
-Use the token on protected routes:
+The login response includes the access token, user ID, and role.
 
-```http
-Authorization: Bearer <accessToken>
-```
-
-### Player (`ROLE_PLAYER`)
-
-| Method | Path |
-|--------|------|
-| `GET` | `/api/player/me/metrics` |
-| `GET` | `/api/player/me/analytics?from=YYYY-MM-DD&to=YYYY-MM-DD` |
-| `GET` | `/api/player/me/fixtures` |
-
-### Coach (`ROLE_COACH` or `ROLE_ADMIN`)
-
-| Method | Path |
-|--------|------|
-| `GET` | `/api/coach/players` |
-| `GET` | `/api/coach/facilities` |
-| `GET` / `POST` | `/api/coach/players/{playerId}/metrics` |
-| `GET` | `/api/coach/billing/summaries` |
-| `GET` / `POST` | `/api/coach/bookings`, `/api/coach/bookings/mine` |
-| `GET` | `/api/coach/fixtures` |
-| `POST` | `/api/coach/fixtures/{id}/go-live` |
-| `POST` | `/api/coach/fixtures/{id}/complete` |
-| `POST` | `/api/coach/fixtures/{id}/cancel` |
-
-### Admin (`ROLE_ADMIN`)
-
-| Method | Path |
-|--------|------|
-| `GET` / `POST` | `/api/admin/batches` |
-| `GET` / `POST` | `/api/admin/facilities` |
-| `POST` | `/api/admin/fixtures` |
-
-## H2 database console
-
-When the app is running:
-
-- URL: `http://localhost:8080/h2-console`
-- JDBC URL: `jdbc:h2:mem:cricket`
-- Username: `sa`
-- Password: *(empty)*
-
-Data is in-memory and resets when the application stops.
-
-## Configuration
-
-Key settings in `src/main/resources/application.yml`:
-
-| Property | Default | Description |
-|----------|---------|-------------|
-| `server.port` | `8080` | HTTP port |
-| `jwt.secret` | *(see file)* | Signing key — change in production |
-| `jwt.expiration-ms` | `86400000` | Token lifetime (24 hours) |
-| `academy.notifications.enabled` | `true` | Toggle notification service |
-
-## Project structure
+## Project Structure
 
 ```text
-src/main/java/com/cricketacademy/
-├── bootstrap/          # Demo data seeder
-├── config/             # Application & async configuration
-├── domain/             # JPA entities (users, players, batches, fixtures, …)
-├── repo/               # Spring Data repositories
-├── security/           # JWT filter, Spring Security config
-├── service/            # Business logic
-└── web/                # REST controllers & DTOs
-
-src/main/resources/
-├── application.yml
-└── static/             # Web UI (HTML, CSS, JS)
+src/
+├── main/
+│   ├── java/com/cricketacademy/
+│   │   ├── bootstrap/    # Demo data initialization
+│   │   ├── config/       # Application configuration
+│   │   ├── domain/       # JPA entities
+│   │   ├── repo/         # Spring Data repositories
+│   │   ├── security/     # JWT and security configuration
+│   │   ├── service/      # Business logic
+│   │   └── web/          # REST controllers and DTOs
+│   └── resources/
+│       ├── application.yml
+│       └── static/       # HTML, CSS, and JavaScript
+└── test/                 # Automated tests, if present
 ```
 
-## Build & test
+## Build and Test
+
+Run the automated tests:
 
 ```bash
-# Compile
-mvn compile
-
-# Run tests
 mvn test
+```
 
-# Package JAR
+Compile the project:
+
+```bash
+mvn compile
+```
+
+Package the application into an executable JAR:
+
+```bash
 mvn package
+```
+
+Run the packaged application:
+
+```bash
 java -jar target/cricket-academy-portal-0.0.1-SNAPSHOT.jar
 ```
 
-## Demo seed data
+## Configuration
 
-On first startup, `AcademyDataSeeder` creates:
+Application settings are maintained in `src/main/resources/application.yml`.
 
-- Users: admin, coach, player (password `password`)
-- Batch: **Under-19 Elite** (coach-assigned)
-- Player profile linked to the player user
-- Facility: **Centre Indoor Nets**
-- Sample performance metrics (5 sessions)
-- A billing statement and a scheduled practice fixture
+| Property                        | Default    | Description                    |
+| ------------------------------- | ---------- | ------------------------------ |
+| `server.port`                   | `8080`     | Application server port        |
+| `jwt.expiration-ms`             | `86400000` | JWT validity period (24 hours) |
+| `academy.notifications.enabled` | `true`     | Notification service toggle    |
 
-Seeding runs only when the database is empty.
+The JWT signing secret must be configured securely for deployment. Never commit real secrets or production credentials to GitHub.
+
+## Database
+
+The application uses an **H2 in-memory database** for development and demonstration.
+
+* Database: `cricket`
+* JDBC URL: `jdbc:h2:mem:cricket`
+* Username: `sa`
+* Password: Empty by default
+
+Data is stored in memory and resets when the application stops. Demo records are recreated on startup when the database is empty.
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| Browser shows “can’t reach this page” | Start the app with `mvn spring-boot:run` and use `http://localhost:8080` |
-| Login works in UI but no data | Ensure you use a demo account; reseed by restarting with an empty DB |
-| `401 Unauthorized` on API calls | Send `Authorization: Bearer <token>` from `/api/auth/login` |
-| Port 8080 in use | Stop the other process or set `server.port` in `application.yml` |
+| Problem                        | Solution                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| Application does not start     | Verify JDK and Maven installations and check the application logs.              |
+| Port 8080 is already in use    | Stop the conflicting process or change `server.port`.                           |
+| API returns `401 Unauthorized` | Log in again and provide a valid JWT in the authorization header.               |
+| Dashboard shows no data        | Sign in with a demo account and verify that demo data initialization completed. |
 
 
+**Cricket Academy Portal** — Simplifying cricket academy administration and player performance tracking through a role-based web application.

@@ -208,6 +208,4 @@ Seeding runs only when the database is empty.
 | `401 Unauthorized` on API calls | Send `Authorization: Bearer <token>` from `/api/auth/login` |
 | Port 8080 in use | Stop the other process or set `server.port` in `application.yml` |
 
-## License
 
-This project is provided as-is for educational and demonstration purposes.
